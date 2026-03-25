@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <title>徵集比賽報名表</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      font-size: 20px;
+      line-height: 1.6;
+      background-color: #f9f9f9;
+      color: #000;
+      padding: 20px;
+      text-align: center;
+    }
+    h2 {
+      font-size: 28px;
+      color: #004d00;
+      margin-top: 10px;
+    }
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      text-align: left;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    input, select, button {
+      width: 100%;
+      max-width: 500px;
+      padding: 12px;
+      margin: 8px auto;
+      font-size: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      text-align: left;
+      display: block;
+    }
+    button {
+      background-color: #004d00;
+      color: #fff;
+      cursor: pointer;
+      margin-top: 20px;
+      text-align: center;
+    }
+    button:hover {
+      background-color: #006600;
+    }
+    .student-group {
+      border: 2px solid #99cc99;
+      background-color: #f0fff0;
+      border-radius: 12px;
+      padding: 12px;
+      margin-top: 12px;
+      text-align: left;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .student-group h4 {
+      margin: 0 0 8px 0;
+      color: #004d00;
+      text-align: center;
+    }
+    .student-group input, .student-group label {
+      width: 90%;
+      max-width: 450px;
+      margin: 6px auto;
+      display: block;
+      text-align: left;
+    }
+    #previewModal, #successPage {
+      border: 2px solid #004d00;
+      background: #fff;
+      padding: 20px;
+      margin-top: 20px;
+      display: none;
+      border-radius: 8px;
+      text-align: center;
+    }
+    table {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      border-collapse: collapse;
+      font-size: 18px;
+    }
+    table td {
+      border: 1px solid #ccc;
+      padding: 8px;
+    }
+    table td:first-child {
+      font-weight: bold;
+      width: 30%;
+      background-color: #f5f5f5;
+    }
+    .student-row {
+      background-color: #f0fff0;
+    }
+/* 手機顯示優化：表單與 Banner 同寬，字體放大 50% */
+@media screen and (max-width: 1024px) {
+  body {
+    font-size: 30%0px !important;   /* 強制放大 */
+    line-height: 1.8;
+    padding: 10px;
+  }
+  h2 {
+    font-size: 54px !important;
+  }
+  label {
+    font-size: 40px !important;
+  }
+  button {
+    font-size: 40px !important;
+    max-width: 90% !important;
+    padding: 50px !important;
+    box-sizing: border-box;
+  }
+    input, select, textarea {
+    font-size: 40px !important;   /* 放大文字 */
+    width: 90% !important;       /* 與 Banner 90%寬 */
+    text-align: left !important;  /* 文字靠左 */
+    padding-left: 16px !important;
+  }
+
+  table {
+    font-size: 28px !important;
+    width: 90% !important;
+  }
+    #signupForm {
+    width: 90%;       /* 橫向佔90% */
+    margin: 0 auto;   /* 保持置中 */
+  }
+  #banner {
+    max-width:100%;
+  }
+  #details {
+    font-size: 40px !important;
+    width: 100% !important;
+    box-sizing: border-box;
+  }
+  #details p:nth-child(-n+3) {
+  text-align: center;   /* 前三項文字置中 */
+}
+
+#details p:nth-child(n+4) {
+  text-align: left;     /* 第四項開始靠左 */
+}
+
+  #banner {
+    width: 100% !important;
+    height: auto;
+  }
+  .student-group {
+    width: 90% !important;
+    max-width: 90% !important;
+    font-size: 50px !important;
+  }
+}
+  </style>
+</head>
+<body>
+
+  <div id="banner" style="text-align:center; margin-bottom:20px;">
+  <img src="https://raw.githubusercontent.com/creativewavehk/2026TGSM/main/Form_Banner4.png" 
+       alt="活動圖片" 
+       style="max-width:60%; height:auto; border-radius:12px;">
+</div>
+  <h2>Registration Form<p>活動報名表</p></h2>
+  <form id="signupForm">
+    <label for="group">組別 Category：</label>
+    <select id="group" name="group" required>
+      <option value="">請選擇 Please select</option>
+      <option value="小學組 Primary">小學組 Primary</option>
+      <option value="中學組 Secondary">中學組 Secondary</option>
+      <option value="青年團隊組 Youth Group">青年團隊組 Youth Group</option>
+    </select>
+
+    <label for="schoolCN">學校名稱 School Name：</label>
+    <input type="text" id="schoolCN" name="schoolCN" placeholder="請輸入 Please fill in" required>
+
+    <label for="numStudents">參加人數 Number of Partivipants：</label>
+    <select id="numStudents" name="numStudents" required>
+      <option value="">請選擇 Please select</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+    </select>
+
+    <div id="students"></div>
+
+    <label for="teacher">聯絡老師/學生名稱 Contact Teacher/ Student Name：</label>
+    <input type="text" id="teacher" name="teacher" placeholder="請輸入 Please fill in" required>
+
+    <label for="phone">聯絡電話 Contact Phone Number：</label>
+    <input type="tel" id="phone" name="phone" placeholder="請輸入 Please fill in" required>
+
+    <label for="email">聯絡電郵 Contact Email：</label>
+    <input type="email" id="email" name="email" placeholder="請輸入 Please fill in" required>
+
+    <button type="submit">提交 Submit</button>
+  </form>
+
+<!-- 活動詳情區塊 -->
+<div id="details">
+  <h3>「邁向碳中和 說好綠色故事」徵集比賽</h3>
+  <h3>"Tell a Green Story, Moving Towards Carbon Neutrality"</h3>
+  <p><strong>提交作品 注意事項<strong></p>
+  <p><strong>截止日期：</strong>2026年5月23日(星期六) 23:59</p>
+  <p><strong>Deadline:</strong> May 23, 2026 (Saturday), 23:59 </p>
+  <br>
+  <p><strong>提交方式：</strong>電郵至 info@langqingcharity.hk</p>
+  <p><strong>Submission Method：</strong>Email to info@langqingcharity.hk</p>
+  <br>
+  <p><strong>作品規格：</strong></p>
+  <p>1. 影片 - 小學組不多於3分鐘 / 中學組不多於4分鐘</p>
+  <p>2. PPT報告 - 小學組500字内10-20頁 / 中學組1000字内20-30頁</p>
+  <p><strong>Submission Specifications:</strong></p>
+  <p>1.	Video - Primary School Division: no more than 3 minutes / Secondary School Division: no more than 4 minutes</p>
+  <p>2.	PPT Report - Primary School Division: 10–20 pages within 500 words / Secondary School Division: 20–30 pages within 1,000 words</p>
+  
+  <!-- PDF 下載連結 -->
+  <p><a href="https://creativewavehk.github.io/2026TGSM/Proposal_v7r.pdf" target="_blank">
+    <p>📄 點此下載完整活動細則及詳情 (PDF)</p>
+    <p> Click to download the complete activity guidelines (PDF)</p>
+  </a></p>
+
+  <!-- 預覽視窗 -->
+  <div id="previewModal">
+    <h3>預覽您的資料 Preview your profile</h3>
+    <table id="previewTable">
+      <tbody></tbody>
+    </table>
+    <button id="confirmSubmit">確認送出 Confirmed submission</button>
+    <button id="editBack">返回修改 Return to edit</button>
+  </div>
+
+<!-- Loading 遮罩 -->
+<div id="loading" style="display:none; border:2px solid #004d00; background:#fff; padding:20px; margin-top:20px; border-radius:8px; text-align:center;">
+  <h3>提交中，請稍候...</h3>
+  <h3>Submitting, please wait...</h3>
+</div>
+
+  <!-- 成功頁面 -->
+  <div id="successPage"></div>
+
+<script>
+  const form = document.getElementById("signupForm");
+  const studentDiv = document.getElementById("students");
+  const numSelect = document.getElementById("numStudents");
+  const previewModal = document.getElementById("previewModal");
+  const previewTableBody = document.querySelector("#previewTable tbody");
+  const successPage = document.getElementById("successPage");
+
+  // 全域變數：報名編號
+  let generatedRegCode = "";
+
+  // 動態生成學生欄位
+  function renderStudents(num) {
+    studentDiv.innerHTML = "";
+    for (let i = 1; i <= num; i++) {
+      studentDiv.innerHTML += `
+        <div class="student-group">
+          <h4>學生 Student ${i}</h4>
+          <label>姓氏 Last Name：</label>
+          <input type="text" name="studentLast${i}" required>
+          <label>名字 First Name：</label>
+          <input type="text" name="studentFirst${i}" required>
+        </div>
+      `;
+    }
+  }
+
+  numSelect.addEventListener("change", function() {
+    const num = Number(this.value);
+    if (num > 0) {
+      renderStudents(num);
+    } else {
+      studentDiv.innerHTML = "";
+    }
+  });
+
+  // 表單提交 → 預覽
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+    const formData = Object.fromEntries(new FormData(this).entries());
+
+    // 生成報名編號：TGS + 5位數字
+    generatedRegCode = "TGS" + Math.floor(10000 + Math.random() * 90000);
+    formData.regCode = generatedRegCode;
+
+    // 預覽顯示
+    previewTableBody.innerHTML = "";
+    const fields = [
+      ["組別 Category", formData.group],
+      ["報名編號 Registration Number", formData.regCode],
+      ["學校名稱 School Name", formData.schoolCN],
+      ["參加人數 Number of Participants", formData.numStudents],
+      ["聯絡老師/學生名稱 Contact Teacher/Student Name", formData.teacher || "未填"],
+      ["聯絡電話 Contact Phone Number", formData.phone],
+      ["聯絡電郵 Contact Email", formData.email] 
+    ];
+    fields.forEach(([label, value]) => {
+      previewTableBody.innerHTML += `<tr><td>${label}</td><td>${value}</td></tr>`;
+    });
+
+    for (let i = 1; i <= formData.numStudents; i++) {
+      const last = formData[`studentLast${i}`] || "";
+      const first = formData[`studentFirst${i}`] || "";
+      previewTableBody.innerHTML += `
+        <tr><td>學生 Student ${i}</td><td>${last} ${first}</td></tr>
+      `;
+    }
+
+    previewModal.style.display = "block";
+ 
+
+  // 🔽 新增這段：自動捲動並聚焦到預覽表格
+  previewTableBody.scrollIntoView({behavior: "smooth"});
+  const firstRow = previewTableBody.querySelector("tr");
+  if (firstRow) firstRow.focus();
+ });
+
+  // 返回修改
+  document.getElementById("editBack").onclick = () => {
+    previewModal.style.display = "none";
+  };
+
+  // 確認提交
+  document.getElementById("confirmSubmit").onclick = () => {
+    const formData = Object.fromEntries(new FormData(form).entries());
+    formData.regCode = generatedRegCode; // 使用之前生成的編號
+
+    previewModal.style.display = "none";
+    document.getElementById("loading").style.display = "block";
+
+    google.script.run.withSuccessHandler(function(result){
+      document.getElementById("loading").style.display = "none";
+      if(result === "success"){
+        successPage.innerHTML = `
+          <h2>提交成功！</h2>
+          <h2>Submission successful!</h2>
+          <p>確認電郵已寄出，感謝您的報名。</p>
+          <p>The confirmation email has been sent. Thank you for your registration.</p>
+          <p>您的報名編號 Your registration number:：<strong>${formData.regCode}</strong></p>
+            <br>
+  <button onclick="window.location.href='https://www.carbonneutralhk.com'">
+    離開 Leave the page
+  </button>
+
+        `;
+        successPage.style.display = "block";
+        form.style.display = "none";
+      } else {
+        alert("提交失敗，請再試一次 Submission failed, please try again.");
+      }
+    }).withFailureHandler(function(err){
+      document.getElementById("loading").style.display = "none";
+      alert("系統錯誤 System error：" + err.message);
+    }).saveData(formData);
+  };
+</script>
+
+</body>
+</html>
