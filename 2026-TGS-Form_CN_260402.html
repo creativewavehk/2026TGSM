@@ -488,18 +488,20 @@ document.getElementById("confirmSubmit").onclick = async () => {
     const result = await response.json();
     document.getElementById("loading").style.display = "none";
 
-    if (result.id) {
-      successPage.innerHTML = `
-        <h2>提交成功！</h2>
-        <h2>Submission successful!</h2>
-        <p>您的报名编号 Your registration number: <strong>${formData.regCode}</strong></p>
-      `;
-      successPage.style.display = "block";
-      form.style.display = "none";
-    // 額外：自動捲到成功區塊
-      successPage.scrollIntoView({behavior: "smooth"});
-      successPage.focus();
-    } else {
+ if (result.id) {
+  successPage.innerHTML = `
+    <h2>提交成功！</h2>
+    <h2>Submission successful!</h2>
+    <p>您的报名编号 Your registration number: <strong>${formData.regCode}</strong></p>
+    <a href="https://www.carbonneutralhk.com" class="download-btn">离开 Exit</a>
+  `;
+  successPage.style.display = "block";
+  form.style.display = "none";
+  successPage.scrollIntoView({behavior: "smooth"});
+  successPage.focus();
+}
+
+ else {
       alert("提交失败，请再试一次 Submission failed.");
     }
   } catch (err) {
